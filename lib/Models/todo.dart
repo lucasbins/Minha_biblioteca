@@ -4,8 +4,8 @@ class Todo {
   String _desc;
   String _date;
 
-  Todo(this._title, this._date, [this._desc]);
-  Todo.comId(this._id, this._title, this._date, [this._desc]);
+  Todo(this._title, this._date, [this._desc]);// construtor do objeto
+  Todo.comId(this._id, this._title, this._date, [this._desc]);//construtor nomeado
 
   int get id => _id;
 
@@ -31,6 +31,7 @@ class Todo {
     this._date = newDate;
   }
 
+
   Map<String, dynamic> toMap() {
     //convete um obj para um mapa
     var map = Map<String, dynamic>();
@@ -40,7 +41,6 @@ class Todo {
     map['title'] = _title;
     map['desc'] = _desc;
     map['date'] = _date;
-
     return map;
   }
 

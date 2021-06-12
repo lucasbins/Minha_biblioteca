@@ -16,10 +16,9 @@ class _TodoListState extends State<TodoList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-   // updateListView();
-    print(todoList.length);
+    updateListView();
+    debugPrint(todoList.length.toString());
   }
 
   @override
@@ -101,8 +100,22 @@ class _TodoListState extends State<TodoList> {
       //return TodoDetail(todo, title);
     })).then((result) {
       if (result ?? true) {
-       /// updateListView();
+        updateListView();
       }
     });
   }
-}
+
+  void updateListView() {
+    final Future<Database> dbFuture = databaseHelper.initializeDatabase();
+    dbFuture.then((database) {
+      Future<List<Todo>> todoListFuture = databaseHelper.getTodoList();
+      todoListFuture.then((todoList) {
+        setState(() {
+          this.todoList = todoList;
+        });
+      });
+    });
+  }
+
+
+  }

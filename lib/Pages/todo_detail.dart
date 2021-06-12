@@ -148,15 +148,15 @@ class _TodoDetailState extends State<TodoDetail> {
     int result;
     if (todo.id != null) {
       // Caso 1: Atualizar
-    //  result = await helper.updateTodo(todo);
+      result = await helper.updateTodo(todo);
     } else {
       // Caso 2: Inserir
-  //    result = await helper.insertTodo(todo);
+      result = await helper.insertTodo(todo);
     }
 
     if (result != 0) {
       // Succeso
-      _showAlertDialog('Status', 'Salvo com sucesso');
+      _showAlertDialog('Status', 'Salvo com sucesso $result');
     } else {
       // deu merda
       _showAlertDialog('Status', 'Eita nóis');
@@ -171,7 +171,7 @@ class _TodoDetailState extends State<TodoDetail> {
       return;
     }
     int result;
-    //result = await helper.deleteTodo(todo.id);
+      result = await helper.deleteTodo(todo.id);
     if (result != 0) {
       _showAlertDialog('Status', 'Menos uma coisa a fazer!');
     } else {
