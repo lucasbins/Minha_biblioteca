@@ -59,10 +59,10 @@ class _TodoListState extends State<TodoList> {
             trailing: GestureDetector(
                 child: Icon(
                   Icons.delete,
-                  color: Colors.redAccent,
+                  color: Colors.blueAccent,
                 ),
                 onTap: () {
-            //      _delete(context, todo);
+                      _delete(context, todo);
                 }),
             onTap: () {
               print("Lista detalhes");
@@ -103,6 +103,15 @@ class _TodoListState extends State<TodoList> {
         updateListView();
       }
     });
+  }
+
+  void _delete(BuildContext ctx, Todo todo) async{
+    int result = await databaseHelper.deleteTodo(todo.id);
+    if(result!=0){
+      _showSnackBar(ctx, "Deletando...");
+      updateListView();
+    }
+
   }
 
   void updateListView() {
