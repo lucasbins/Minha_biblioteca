@@ -9,7 +9,7 @@ class AppTodo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Coisas a fazer",
+      title: "Biblioteca",
       //  debugShowCheckedModeBanner: false,
       home: TodoList(),
     );

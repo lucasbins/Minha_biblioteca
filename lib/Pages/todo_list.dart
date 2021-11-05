@@ -25,15 +25,15 @@ class _TodoListState extends State<TodoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FOCO PORRA'),
+        title: Text('Minha Biblioteca'),
       ),
       body: getTodosListView(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint('Clicl');
-          navigateToDetail(Todo('', '', ''), 'Adicionar');
+          debugPrint('Adicionar');
+          navigateToDetail(Todo('', '', '', ''), 'Adicionar');
         },
-        tooltip: '+ 1 A fazer',
+        tooltip: 'Adicionara Livro',
         child: Icon(Icons.add),
       ),
     );
@@ -54,15 +54,15 @@ class _TodoListState extends State<TodoList> {
                   style: TextStyle(fontWeight: FontWeight.bold)),
             ),
             title:
-            Text(todo.title, style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(todo.desc),
+                Text(todo.title, style: TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Text(todo.autor),
             trailing: GestureDetector(
                 child: Icon(
                   Icons.delete,
                   color: Colors.blueAccent,
                 ),
                 onTap: () {
-                      _delete(context, todo);
+                  _delete(context, todo);
                 }),
             onTap: () {
               print("Lista detalhes");
@@ -84,13 +84,10 @@ class _TodoListState extends State<TodoList> {
     }
   }
 
-
-
   void _showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message));
     Scaffold.of(context).showSnackBar(snackBar);
   }
-
 
   void navigateToDetail(Todo todo, String title) async {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -105,13 +102,12 @@ class _TodoListState extends State<TodoList> {
     });
   }
 
-  void _delete(BuildContext ctx, Todo todo) async{
+  void _delete(BuildContext ctx, Todo todo) async {
     int result = await databaseHelper.deleteTodo(todo.id);
-    if(result!=0){
+    if (result != 0) {
       _showSnackBar(ctx, "Deletando...");
       updateListView();
     }
-
   }
 
   void updateListView() {
@@ -125,6 +121,4 @@ class _TodoListState extends State<TodoList> {
       });
     });
   }
-
-
-  }
+}

@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:todo_list_flutter/Models/todo.dart';
 import 'package:todo_list_flutter/Utils/database_helper.dart';
 
-
 class TodoDetail extends StatefulWidget {
   final String appBarTitle;
   final Todo todo;
@@ -20,9 +19,11 @@ class _TodoDetailState extends State<TodoDetail> {
 
   String appBarTitle;
   Todo todo;
+  bool isTrue = false;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController lidoController = TextEditingController();
 
   _TodoDetailState(this.todo, this.appBarTitle);
 
@@ -30,7 +31,7 @@ class _TodoDetailState extends State<TodoDetail> {
   Widget build(BuildContext context) {
     TextStyle textStyle = Theme.of(context).textTheme.bodyText1;
     titleController.text = todo.title;
-    descriptionController.text = todo.desc;
+    descriptionController.text = todo.autor;
 
     return Scaffold(
       appBar: AppBar(
@@ -73,12 +74,39 @@ class _TodoDetailState extends State<TodoDetail> {
                   updateDescription();
                 },
                 decoration: InputDecoration(
-                    labelText: 'Descrição',
+                    labelText: 'Autor',
                     labelStyle: textStyle,
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0))),
               ),
             ),
+
+            // 3 elemento
+            Padding(
+                padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                child: Row(
+                  children: <Widget>[
+                    Text('Já Leu',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    Spacer(),
+                    Switch(
+                      value: buscaLido(),
+                      onChanged: (bool newValue) {
+                        setState(() {
+                          isTrue = newValue;
+                          if (isTrue) {
+                            updateLido('1');
+                          } else {
+                            updateLido('0');
+                          }
+
+                          print(isTrue);
+                        });
+                      },
+                    ),
+                  ],
+                )),
 
             // quart Elemento
             Padding(
@@ -141,6 +169,18 @@ class _TodoDetailState extends State<TodoDetail> {
     todo.description = descriptionController.text;
   }
 
+  void updateLido(String lido) {
+    todo.lido = lido;
+  }
+
+  bool buscaLido() {
+    if (todo.lido == '1') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void _save() async {
     moveToLastScreen();
 
@@ -171,7 +211,7 @@ class _TodoDetailState extends State<TodoDetail> {
       return;
     }
     int result;
-      result = await helper.deleteTodo(todo.id);
+    result = await helper.deleteTodo(todo.id);
     if (result != 0) {
       _showAlertDialog('Status', 'Menos uma coisa a fazer!');
     } else {
